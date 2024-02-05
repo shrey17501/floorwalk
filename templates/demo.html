@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand and Store Counts by State</title>
+    <style>
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        .transparent-button {
+            background-color: rgba(0, 0, 0, 0); /* Transparent background */
+            border: none; /* Remove border if needed */
+            /* Add any other styling as necessary */
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .transparent-button:hover {
+            background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background on hover */
+            /* Adjust the RGBA values or use other color formats as needed */
+            
+        }
+    </style>
+    <script>
+        function showStoreInfo( industry, state, brand) {
+            // Redirect to store_info page with state and brand parameters
+            window.location.href = `/store_info/?industry=${industry}&state=${state}&brand=${brand}`;
+        }
+    </script>
+</head>
+<body>
+    {% comment %} {{ table | safe }} {% endcomment %}
+<table border="1">
+    <thead>
+        <tr>
+            <!-- Add other headers for each brand -->
+            {% for head in headers %}
+                <th>{{ head }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Iterate through each state in the result -->
+        
+        {% comment %} {% for row in table_data %}
+            <tr>
+
+                {% for cell in row %}
+                    <td><button class="transparent-button" onclick="showStoreInfo('{{ industry }}')">{{ cell }}</button></td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+     {% endcomment %}
+     {% for row in rows %}
+            <tr>
+                {% for brand, cell in row.items %}
+                    <td><button class="transparent-button" onclick="showStoreInfo('{{ industry }}', '{{ row.state }}', '{{ brand }}' )">{{industry}}{{row.state}}{{brand}}{{ cell }}</button></td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+
+</body>
+</html>

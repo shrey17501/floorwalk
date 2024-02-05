@@ -1,0 +1,135 @@
+<!-- store_info.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Information</title>
+    <link href="https://floorwalk.in/img/logos/logo-shortcut.png" rel="icon">
+    <style>
+        h1 {
+            font-size: 34px;
+            color: #400;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    
+        p {
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .datatable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        .datatable th, .datatable td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+    
+        .datatable th {
+            background-color: #2487ce;
+            color: white;
+        }
+    
+        .datatable tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    
+        .datatable tr:hover {
+            background-color: #e5e5e5;
+        }
+
+        .datatable thead th{
+            position: sticky; 
+            top: 0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            margin-top: 20px; /* Adjust margin as needed */
+            text-align: center;
+        }
+        
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        .pagination a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .pagination .current {
+            margin: 0 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Store Information</h1>
+    
+    <p><strong>Industry:</strong> {{industry}} <strong>State:</strong> {{ state }}, <strong>Brand:</strong> {{ brand }}</p>
+    <p><strong>Number of Stores:</strong> {{filtered_data_count}}
+    
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if filtered_data.has_previous %}
+                <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page=1">first</a>
+                <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page={{ filtered_data.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ filtered_data.number }} of {{ filtered_data.paginator.num_pages }}.
+            </span>
+
+            {% if filtered_data.has_next %}
+                <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page={{ filtered_data.next_page_number }}">next</a>
+                <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page={{ filtered_data.paginator.num_pages }}">last</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <table class="datatable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Store_Name</th>
+                <th>Brand_Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Pincode</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in filtered_data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.store_name }}</td>
+                <td>{{ item.brand_name }}</td>
+                <td>{{ item.address }}</td>                        
+                <td>{{ item.city }}</td>
+                <td>{{ item.state }}</td>
+                <td>{{ item.pincode }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+            
+        
+</body>
+</html>
