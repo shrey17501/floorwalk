@@ -3,12 +3,48 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH1R3QPDSJ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-VH1R3QPDSJ');
+        </script>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-        <title>FloorWalk HomePage</title>
-        <meta content="" name="description">
+        <title>
+        {% if industry and state and brand %}
+            Retail Research for {{industry}} in {{state}} for {{brand}} - FloorWalk
+        {% elif industry and selected_state and selected_brand %}
+            Retail Research for {{industry}} in {% for s in selected_state %} {{s}}, {% endfor %} for 
+            {% for b in selected_brand %} {{b}}, {% endfor %} - FloorWalk
+        {% elif industry and selected_state %}
+            Retail Research for {{industry}} in {% for s in selected_state %} {{s}}, {% endfor %} - FloorWalk
+        {% elif industry and selected_brand %}
+            Retail Research for {{industry}} - {% for b in selected_brand %} {{b}}, {% endfor %} - FloorWalk
+        {% else %}
+            Competition Benchmarking & Retail Research Platform for {{industry}} - FloorWalk
+        {% endif %}
+        </title>
+        
+        {% if industry and state and brand %}
+            <meta content="comprehensive retail market analysis of {{brand}} in {{state}}." name="description">
+        {% elif industry and selected_state and selected_brand %}
+            <meta content="comprehensive retail market analysis of {% for b in selected_brand %} {{b}}, {% endfor %} in {% for s in selected_state %} {{s}}, {% endfor %}." name="description">
+        {% elif industry and selected_state %}
+            <meta content="Exploring consumer trend and market potential for {{industry}} in {% for s in selected_state %} {{s}}, {% endfor %}" name="description">
+        {% elif industry and selected_brand %}
+            <meta content="Exploring consumer trends and market dynamics in leading {{industry}} chains such as {% for b in selected_brand %} {{b}}, {% endfor %}" name="description">
+        {% else %}
+            <meta content="your ultimate solution for {{industry}} success, offering competition benchmarking and retail research insights in one powerful platform." name="description">
+        {%endif%}
+
         <meta content="" name="keywords">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <!-- Favicons -->
         <link href="https://floorwalk.in/img/logos/logo-shortcut.png" rel="icon">
@@ -29,21 +65,88 @@
         <!-- Your head content -->
         <script>
             function showStoreInfo(industry, state, brand) {
+                var selectedStates = [];
+                var selectedBrands = [];
+
+                // Collect selected states
+                $('input[name="states"]:checked').each(function() {
+                    selectedStates.push($(this).val());
+                });
+
+                // Collect selected brands
+                $('input[name="brands"]:checked').each(function() {
+                    selectedBrands.push($(this).val());
+                });
+
+                // Convert arrays to comma-separated strings
+                var selectedStatesString = selectedStates.join(",");
+                var selectedBrandsString = selectedBrands.join(",");
+                console.log(selectedStatesString);
+                console.log(selectedBrandsString);
                 // Redirect to store_info page with state and brand parameters
-                window.location.href = `/store_info/?industry=${industry}&state=${state}&brand=${brand}`;
+                window.location.href = `/store_info/?industry=${industry}&state=${state}&brand=${brand}&selected_states=${selectedStatesString}&selected_brands=${selectedBrandsString}`;
             }
         </script>
         <style>
-           
+
+            .footer-location{
+                color: #fff;
+              }
+            #popupForm {
+                display: none;
+                position: fixed;
+                top: 50%;
+                width: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 20px;
+                background: #fff;
+                border: 1px solid #ccc;
+                z-index: 1000;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            }
+            .closeButton {
+                background-color: #333; /* Darker color for the close button */
+                color: #fff; /* Text color for the close button */
+                border: none;
+                cursor: pointer;
+                font-size: 10px;
+                position: absolute;
+                top: 10px;
+                right: 4px;
+            }
+            
+            .closeButton:hover {
+                background-color: #555; /* Darker color on hover */
+            }
+            
+            .request-button{
+                width: 10%;
+                height: 55px;
+                margin-top: 2%;
+                margin-bottom: 1%;
+                margin-left: 45%;
+                border-radius: 8px;
+                color: #fff;
+                background: #28a745;
+            }
+            .request-button:hover {
+                background: #069728;
+            }
+            @media (max-width: 992px) {
+                .request-button {
+                   width: 20%;
+                   height: 55px;
+                }
+            }
             .btn-get-started{
                 width: 35%;
                 height: 55px;
                 margin-top: 5%;
-               
-                background: #2487ce;
+                margin-left: 6%;
                 border-radius: 8px;
                 color: #fff;
-                background: #2487ce;
+                background: #28a745;;
             }
             .submit-button{
                 margin-left:13%;
@@ -73,24 +176,69 @@
                 position: sticky; 
                 top: 0;
             }
+             {% comment %} .scrollable-checkboxes {
+                max-height: 200px; /* Adjust height as needed */
+                
+                overflow-y: scroll;
+            } {% endcomment %}
+            #state-checkboxes,
+            #brand-checkboxes {
+                height: 300px; /* Set your desired height here */
+                overflow-y: scroll; /* Add a scrollbar if content exceeds the height */
+            }
+            .pagination {
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                margin-top: 20px; /* Adjust margin as needed */
+                text-align: center;
+            }
+            
+            .pagination a {
+                padding: 8px 16px;
+                margin: 0 4px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                text-decoration: none;
+                color: #333;
+                background-color: #fff;
+            }
+            
+            .pagination a:hover {
+                background-color: #f5f5f5;
+            }
+            
+            .pagination .current {
+                margin: 0 8px;
+            }
+            #map-container{
+                width: 60%;
+            }
+            
         </style>
         <!-- Template Main CSS File -->
         <link href="{% static 'css/filter.css' %}" rel="stylesheet">
+        <script>
+            var state_data = {{ state_data|safe }};
+           
+        </script>
+        <script src="{% static 'js/filter.js' %}" defer></script>
     </head>
     <body>
         <!-- ======= Header ======= -->
+        <div id="header-hero">
         <header id="header" class="fixed-top">
             <div class="container d-flex align-items-center justify-content-between">
 
             <!-- <h1 class="logo"><a href="index.html">FloorWalk</a></h1> -->
             <!-- Uncomment below if you prefer to use an image logo -->
-            <a href="index.html" class="logo"><img src="https://floorwalk.in/img/logo.png " alt="FloorWalk" class="img-fluid"></a>
+            <a href="https://research.floorwalk.in/" class="logo"><img src="https://floorwalk.in/img/logo.png " alt="FloorWalk" class="img-fluid"></a>
 
             <nav id="navbar" class="navbar">
                 <ul>
-                <li><a class="nav-link scrollto" href="https://floorwalk.in/">Floowalk Home</a></li>
-                <li><a class="nav-link scrollto" href="https://marketplace.floorwalk.in">Marketplace</a></li>
-                <li><a class="nav-link scrollto" href="https://floorwalk.in/contact_FloorWalk.html">Contact Us</a></li>
+                <li><a class="nav-link scrollto" href="https://floorwalk.in/">Mystery Shopping</a></li>
+                <li><a class="nav-link scrollto" href="https://research.floorwalk.in">Retail Research Tool</a></li>
+                <li><a class="nav-link scrollto" href="https://zfrmz.com/5EZ1c2Rtv3qeRl9tG4rk">Contact Us</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -101,84 +249,252 @@
         <section id="hero" class="d-flex align-items-center">
             <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
                 <div class="main-table">
-                    <form method="POST" action="{% url 'search_results' %}" class="filters1">
-                        {% csrf_token %}
+                    
+                    <form method="GET" action="{% url 'search_results' %}" class="filters1">
+                        {% comment %} {% csrf_token %} {% endcomment %}
                         <select class="dropdown1" name="industries">
-                            <option value="" disabled selected hidden>Please select the industry</option>
-                            <option value="automobile">Automobile</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="supermarket">Supermarket</option>
-                            <option value="telecom">Telecom</option>
+                            <option value="" disabled hidden>Please select your industry</option>
+                            <option value="Industry" >Please Select Your Industry</option>
+                            <option value="Apparel" {% if industry == "Apparel" %}selected{% endif %}>Apparel</option>
+                            <option value="Automobile" {% if industry == "Automobile" %}selected{% endif %}>Automobile</option>
+                            <option value="Electronic" {% if industry == "Electronic" %}selected{% endif %}>Electronics</option>
+                            <option value="Entertainment" {% if industry == "Entertainment" %}selected{% endif %}>Entertainment</option>
+                            <option value="Supermarket" {% if industry == "Supermarket" %}selected{% endif %}>Supermarket</option>
+                            <option value="Telecom" {% if industry == "Telecom" %}selected{% endif %}>Telecom</option>
                         </select>
-                        <select class="dropdown1" name="states">
-                            <option value="" disabled selected hidden>Please select the state</option>
-                        </select>
-                        <select class="dropdown1" name="brands">
-                            <option value="" disabled selected hidden>Please select the brand</option>
-                        </select>
+                        <div class="dropdown1 scrollable-checkboxes"  id="state-checkboxes" name="states">
+                            <h7>Please select States</h7>   
+                        </div>
+                        <div class="dropdown1 scrollable-checkboxes"  id="brand-checkboxes" name="brands">
+                            <h7>Please select Brands</h7>
+                        </div>
                         <div class="submit-button">
                             <button type="submit" class="btn-get-started">Search</button>
                         </div>
                     </form>
-                    <div class="table-data">
-                        {% if stores_count_by_state %}
-                            <h2>Store Count by State for {{ selected_brand }}</h2>
-                            <table border="1">
-                                <thead>
-                                    <tr>
-                                        <th>State</th>
-                                        <th>Number of Stores</th>
-                                    </tr>
-                                    {% for item in stores_count_by_state %}
+                    <div class="table-data" >
+
+                        {% if result_dict %}
+
+                            <h2><b>Number of stores in India - {% for state in selected_state%} {{state}}, {%endfor%} stores in India</b></h2> 
+                            <div id="map-container" class="svgmap">
+                            </div>
+                            
+                            <div class="graph-table" style="overflow-x:auto;">
+                                {{ graph|safe }}
+                            </div>
+
+                            {% if selected_state %}
+                                <h1>Top Cities by Population</h1>
+                                {% for state in selected_state %}
+                                    <h2><b>{{ state }} Top Cities (In Lakhs)</b></h2>
+                                    <div class="population-table" style="overflow-x: auto;">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>State Name</th>
+                                                    <th>State Name</th>
+                                                    <th>Total Population</th>
+                                                    <th>Total Males</th>
+                                                    <th>Total Females</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for city in top_cities %}
+                                                    {% if city.state_name == state %}
+                                                        <tr>
+                                                            <td>{{ city.state_name }}</td>
+                                                            <td>{{ city.name }}</td>
+                                                            <td>{{ city.total_population }} </td>
+                                                            <td>{{ city.total_males }} </td>
+                                                            <td>{{ city.total_female }} </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% endfor %}
+                            {% endif %} 
+                            
+                            <h2><b>Brand Wise State Wise Count</b></h2>
+                            <div class="state-brand-table" style="overflow-x: auto;">
+                                <table border="1">
+                                    <thead>
                                         <tr>
-                                            <td>{{ item.state }}</td>
-                                            <td><button class="transparent-button" onclick="showStoreInfo('{{ industry }}', '{{ item.state }}', '{{ selected_brand }}')">{{ item.num_stores }}</button></td>
+                                            <th>State</th>
+                                            {% for brand in selected_brand %}
+                                                <th>{{ brand }}</th>
+                                            {% endfor %}
                                         </tr>
-                                    {% endfor %}
-                                </thead>
-                            </table>
+                                        {% for state, count in result_dict.items %}
+                                            <tr>
+                                                <td>{{ state }}</td>
+                                                {% for brand_name, store_count in count.items %}
+                                                    <td><button class="transparent-button" onclick="showStoreInfo('{{ industry }}', '{{ state }}', '{{ brand_name }}')"><u>{{ store_count }}</u></button></td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    </thead>
+                                </table>
+                            </div>
+
+                            {% if state_grouped_cities %}
+                                <h2><b>Top 5 Cities with the Highest Store Count by State</b></h2>
+
+                                {% for state, data in state_grouped_cities.items %}
+                                    <h3>{{ state }}</h3>
+                                    <div class="population-table" style="overflow-x: auto;">
+                                        <table border="1">
+                                            <thead>
+                                                <tr>
+                                                    <th>City</th>
+                                                    <th>Store Count</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for city_data in data.cities %}
+                                                    <tr>
+                                                        <td>{{ city_data.city }}</td>
+                                                        <td>{{ city_data.store_count }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         {% endif %}
 
-                        {%if filtered_data %}
-                            <table>
-                                <thead>
-                                    <tr>
-                                    <th>State</th>
-                                    {% for brand_count in brand_counts %}
-                                        <th>{{brand_count.brand_name}}</th>
-                                        {%endfor%}
-                                    
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <td>{{ selected_state }}</td>
-                                    {% for brand_count in brand_counts %}
-                                        <td><button class="transparent-button" onclick="showStoreInfo('{{ industry }}', '{{ selected_state }}', '{{ brand_count.brand_name }}')">{{ brand_count.store_count }}</button></td>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                        
+                        {% if brand_counts %}
+
+                            <h2></b>Number of stores in India - {% for state in selected_state%} {{state}}, {%endfor%} stores in India</b></h2> 
+                            <div id="map-container" class="svgmap">
+                            </div>
+
+                            <div class="graph-table" style="overflow-x:auto;">
+                                {{ graph|safe }}
+                            </div> 
+
+                            <h1> Top Cities By Population</h1>
+                            {% for state in selected_state %}
+                                <h2>{{ state }} Top Cities (In Lakhs)</h2>
+                                <div class="population-table" style="overflow-x: auto;">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>State Name</th>  
+                                                <th>State Name</th>
+                                                <th>Total Population</th>
+                                                <th>Total Males</th>
+                                                <th>Total Females</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for city in top_cities %}
+                                                {% if city.state_name == state %}
+                                                    <tr>
+                                                        <td>{{ city.state_name }}</td>
+                                                        <td>{{ city.name }}</td>
+                                                        <td>{{ city.total_population }} </td>
+                                                        <td>{{ city.total_males }} </td>
+                                                        <td>{{ city.total_female }} </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endfor %}
+
+                            <h2></b>Brand Wise State Wise Count</b></h2>
+                            <div class="state-brand-table" style="overflow-x: auto;">
+                                <table border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>State</th>
+                                            {% for brand in all_brands %}
+                                                <th>{{ brand }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for state, counts in brand_counts.items %}
+                                            <tr>
+                                                <td>{{ state }}</td>
+                                                {% for brand, store_count in counts.items %}
+                                                    <td><button class="transparent-button" onclick="showStoreInfo('{{ industry }}', '{{ state }}', '{{ brand }}')"><u>{{ store_count }}</u></button></td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
                         {% endif %}
 
                         {% if rows %}
-                            <table class="data-table" border="1">
-                                <thead>
+                        
+                            <h2><b>Number of stores in India</b></h2> 
+                            <div id="map-container" class="svgmap">
+                            </div>
+
+                            <div class="graph-table" style="overflow-x:auto;">
+                                {{ graph|safe }}
+                            </div>  
+
+                            <h2><b>Number of stores locations by each state</b></h2>
+                            <div class="population-table" style="overflow-x: auto;">
+                                <table> 
+                                    <thead>
                                     <tr>
-                                        {% for head in headers %}
-                                        <th>{{ head }}</th>
-                                        {% endfor %}
+                                        <th>State</th>
+                                        <th>Population (In Lakhs)</th>
+                                        <th>Number of Stores</th>
+                                        <th>Number Of stores / 10K People</th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {% for row in rows %}
+                                    </thead>
+                                    <tbody>
+                                    {% for data in state_data %}
                                         <tr>
-                                            {% for brand, cell in row.items %}
-                                                <td><button class="transparent-button" onclick="showStoreInfo('{{ industry }}', '{{ row.state }}', '{{ brand }}' )">{{ cell }}</button></td>
-                                            {% endfor %}
+                                        <td>{{ data.state }}</td>
+                                        <td>{{ data.total_population }}</td>
+                                        <td>{{ data.store_counts }}</td>
+                                        <td>{{ data.ratio }}</td>
                                         </tr>
                                     {% endfor %}
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2><b>Brand Wise State Wise Count</b></h2>
+                            <div class="state-brand-table" style="overflow-x: auto;">
+                                <table border="1">
+                                    <thead>
+                                        <tr>
+                                            
+                                            {% for head in headers %}
+                                            <th>{{ head }}</th>
+                                            {% endfor %}
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in rows %}
+                                            <tr>
+                                                {% for brand, cell in row.items %}
+                                                    <td style="text-align: center;"><button class="transparent-button" onclick="showStoreInfo('{{ industry }}', '{{ row.state }}', '{{ brand }}' )"><u>{{ cell }}</u></button></td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    
+                                    </tbody>
+                                </table>
+                            </div>  
+                            
                         {% comment %} 
                         
                         {{industry}}{{row.state}}{{brand}} -----> i can write this with {{cell}} to show all info is correct or not
@@ -204,69 +520,170 @@
                             </tbody>
                         </table> {% endcomment %}
                         {%endif%}
-                        {% if not stores_count_by_state and not filtered_data and not rows %}
+                        {% if filtered_data %}
+                        <div class="pagination" style="margin: 3%;">
+                            <span class="step-links">
+                                {% if filtered_data.has_previous %}
+                                    <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page=1">first</a>
+                                    <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page={{ filtered_data.previous_page_number }}">previous</a>
+                                {% endif %}
+    
+                                <span class="current">
+                                    Page {{ filtered_data.number }} of {{ filtered_data.paginator.num_pages }}.
+                                </span>
+    
+                                {% if filtered_data.has_next %}
+                                    <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page={{ filtered_data.next_page_number }}">next</a>
+                                    <a href="{% if industry %}?industry={{ industry }}{% endif %}{% if state %}&state={{ state }}{% endif %}{% if brand %}&brand={{ brand }}{% endif %}&page={{ filtered_data.paginator.num_pages }}">last</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table class="datatable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Store_Name</th>
+                                        <th>Brand_Name</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Pincode</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in filtered_data %}
+                                    <tr>
+                                        <td>{{ item.id }}</td>
+                                        <td>{{ item.store_name }}</td>
+                                        <td>{{ item.brand_name }}</td>
+                                        <td>{{ item.address }}</td>                        
+                                        <td>{{ item.city }}</td>
+                                        <td>{{ item.state }}</td>
+                                        <td>{{ item.pincode }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {%endif%}
+                        {% if not result_dict and not brand_counts and not rows and not filtered_data %}
                             <p>There is no data for this combination.</p>
                             
                         {% endif %}
 
                     </div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-xl-7 col-lg-9 text-center">
-                      <h2>Couldn't find your Industry or Brand?<br>
-                        Please fill this form and we will update the details <br> in 2 days and write back to you!</h2>
+                <div class="row justify-content-center" id="industry-request">
+                    {% comment %} <div class="col-xl-7 col-lg-9 text-center"> {% endcomment %}
+                    <div class="text-center">
+                        <h2><b>Couldn't find your Industry or competition brand? Kindly fill this form and we will update the data and write back to you!</b></h2>
                     </div>
                 </div>
-              </div>
+                <button class="request-button" id="openFormButton">Fill Form</button>
+                <div id="popupForm">
+                    <button class="closeButton" onclick="closePopup()">&#10006;</button>
+                    <iframe src="https://forms.zohopublic.com/floorwalk/form/BrandRequestForm/formperma/lN0zIdlII-Ii2mbmNkHyKrE8kBhP06qZUJEZuxOeR98" width="100%" height="500px"></iframe>
+                </div>
+                
             </div>
         </section><!-- End Hero -->
 
-
+    </div>
 
         <!-- ======= Footer ======= -->
         <footer id="footer">
-
             <div class="footer-top">
-            <div class="container">
+              <div class="footer-top-data">
+                <div class="footer-top-text">
+                  <p>Get connected with us on social networks</p>
+                </div>
+                <div class="footer-soical-media-icons">
+                    
+                    <div class="middle-footer-social-media-icons">
+                        <a href="http://www.facebook.com/FloorWalk">
+                        <img src="https://floorwalk.in/img/icons/Asset%201.png" alt="facebook-icon"/>
+                        </a>
+                    </div>
+                    <div class="middle-footer-social-media-icons">
+                        <a href="https://twitter.com/FloorWalkIndia">
+                        <img src="https://floorwalk.in/img/icons/Asset%202.png" alt="twitter-icon"/>
+                        </a>
+                    </div>
+                    <div class="middle-footer-social-media-icons">
+                        <a href="https://www.instagram.com/floorwalk">
+                        <img src="https://floorwalk.in/img/icons/Asset%203.png" alt="instagram-icon"/>
+                        </a>
+                    </div>
+                    <div class="middle-footer-social-media-icons">
+                        <a href="https://www.linkedin.com/company/floorwalk">
+                        <img src="https://floorwalk.in/img/icons/Asset%204.png" alt="linkedin-icon"/>
+                        </a>
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+            <div class="footer-middle">
+              <div class="container">
                 <div class="row">
-
-                <div class="col-lg-2 col-md-6 footer-links">
-                    <h4>Product Categories</h4>
+                  
+                  <div class="col-lg-2 col-md-6 footer-links">
+                    <a href="floorwalk.in">
+                      <img src="https://floorwalk.in/img/floorwalk_logo.png" alt="FloorWalk Logo" width="140px"/>
+                    </a>
+                    <br>
+                    <br>
                     <ul>
-                    <li><i class="bx bx-chevron-right"></i> <a href="#">Competition Benchmarking</a></li>
-                    <li><i class="bx bx-chevron-right"></i> <a href="#">Retail Research</a></li>
-                    <li><i class="bx bx-chevron-right"></i> <a href="#">GEO IQ Mapping</a></li>
+                      <li><a href="https://floorwalk.in/market-research.html">Market Research</a></li>
+                      <li><a href="https://floorwalk.in/Retail_Audits.html">Retail Audits</a></li>
+                      <li><a href="https://floorwalk.in/Consumer_Insights.html">Consumer insights</a></li>
+                      <li><a href="https://floorwalk.in/Mystery_Shopping.html">Mystery Shopping</a></li>
                     </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Resources</h4>
+                  </div>
+      
+                  <div class="col-lg-2 col-md-6 footer-links">
                     <ul>
-                    <li><i class="bx bx-chevron-right"></i> <a href="#">About Us</a></li>
-                    <li><i class="bx bx-chevron-right"></i> <a href="#">Contact Us</a></li>
-                    <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy Policy</a></li>
-                    <li><i class="bx bx-chevron-right"></i> <a href="#">Terms & Conditions</a></li>
+                      <li><a href="https://floorwalk.in/about-floorwalk-mystery-shopping.html">About Us</a></li>
+                      <li><a href="https://floorwalk.in/Mystery_Shopping_Services.html">Services Offered</a></li>
+                      <li><a href="https://floorwalk.in/our_clients.html">Industries & Clients</a></li>
+                      <li><a href="https://floorwalk.in/Frequently_asked_questions_mystery_shopper.html">FAQ’s</a></li>
+                      <li><a href="https://floorwalk.in/case_studies.html">Case Studies</a></li>
+                      <li><a href="https://floorwalk.in/contact_FloorWalk.html">Contact Us</a></li>
                     </ul>
+                  </div>
+      
+                  <div class="col-lg-2 col-md-6 footer-links">
+                    <i class="fa fa-map-marker" style="font-size:18px; color:white;"></i>&nbsp;&nbsp;&nbsp;
+                    <span class='footer-location'>
+                      FloorWalk Consultants Private Limited,
+                      AltF Empire Square,
+                      MR-1, Unit 1,  3rd Floor, JMD Empire Square,
+                      Near Sikanderpur Metro Station, Opp. Metro Pillar No. 71, MG Road 
+                      Gurugram, Haryana - 122002<br>
+                    </span>
+                    <br>
+                    <i class="fa fa-envelope" style="font-size:18px; color:white;"></i>&nbsp;&nbsp;<a href="mailto:contactus@floorwalk.in"><span class='footer-location'>contactus@floorwalk.in</span></a>
+                  </div>
+      
+                  <div class="col-lg-2 col-md-6 footer-links">
+                    <ul>
+                      {% comment %} <a href="https://portal.floorwalk.in/auth/signup?ref=footer"  class="primary-button button-xs ui-gradient-green">Mystery Shopping Jobs</a> {% endcomment %}
+                      <a class="btn btn-primary" href="https://portal.floorwalk.in/auth/signup?ref=footer" role="button">Mystery Shopping Jobs</a>
+                      <li><a href="https://portal.floorwalk.in/auth/login?ref=footer">Log In</a></li>
+                    </ul>
+                  </div>
+                  {% comment %} <a class="btn btn-primary" id="feedback" href="https://portal.zeda.io/floorwalk/board-hgwf" role="button">Feedback</a> {% endcomment %}
                 </div>
-
-                <div class="col-lg-3 col-md-6 footer-contact">
-                    <h4>Get In Touch</h4>
-                    <p>
-                    FloorWalk Consultants Private Limited <br>
-                    AltF Empire Square, MR-1, Unit 1,<br>
-                    3rd Floor, JMD Empire Square <br>
-                    Near Sikanderpur Metro Station,<br>
-                    Opp. Metro Pillar No. 71,<br>
-                    MG Road Gurugram, Haryana -...
-                    </p>
-                </div>
-                </div>
+              </div>
             </div>
+            <div class="footer-bottom">
+              <p style="text-align: center;color: black">© 2024 All Rights Reserved.   @ Floorwalk Consultants Pvt Ltd.</p>
             </div>
-        </footer><!-- End Footer -->
+          </footer><!-- End Footer -->
 
-        <div id="preloader"></div>
-        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        {% comment %} <div id="preloader"></div>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a> {% endcomment %}
 
         <!-- Vendor JS Files -->
         <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
@@ -279,40 +696,217 @@
 
         <!-- Template Main JS File -->
         <script src="{% static 'js/main.js' %}"></script>
+        
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         
         <script>
+            // Function to open the pop-up form
+            function openForm() {
+                document.getElementById("popupForm").style.display = "block";
+            }
+        
+            // Function to close the pop-up form
+            function closeForm() {
+                document.getElementById("popupForm").style.display = "none";
+            }
+        
+            // Add click event listener to the button
+            document.getElementById("openFormButton").addEventListener("click", openForm);
+        
+            // Close the form when clicking outside of it
+            window.addEventListener("click", function(event) {
+                if (event.target == document.getElementById("popupForm")) {
+                    closeForm();
+                }
+            });
+        </script>
+        {% comment %} <script>
             $(document).ready(function(){
                 $('.dropdown1[name="industries"]').change(function(){
                     var industry = $(this).val();
+                    if(['Automobile', 'Electronic', 'Entertainment', 'Supermarket', 'Telecom'].includes(industry)) {
                     if(industry){
                         $.ajax({
                             url: `/get_data/${industry}/`,
                             type: 'GET',
                             dataType: 'json',
                             success: function(data){
+                              $('#state-checkboxes').empty();
+                              $('#brand-checkboxes').empty();
                                 if(data.states){
-                                    var statesDropdown = $('.dropdown1[name="states"]');
-                                    statesDropdown.empty();
-                                    statesDropdown.append('<option value="" disabled selected hidden>Please select the state</option>');
+                                  $('#state-checkboxes').append('<strong>Please select states</strong>')
+                                    data.states.sort();
                                     $.each(data.states, function(index, state){
-                                        statesDropdown.append('<option value="' + state + '">' + state + '</option>');
+                                        var isChecked = ($.inArray(state, data.selected_state) !== -1); // Check if state is in selected_state
+                                        var checkbox = $('<label><input type="checkbox" name="states" value="' + state + '"' + (isChecked ? ' checked' : '') + '>' + state + '</label>');
+                                        var breakline = $('<br>');
+                                        $('#state-checkboxes').append(breakline);
+                                        $('#state-checkboxes').append(checkbox);
+                              
                                     });
                                 }
-
+    
                                 if(data.brands){
-                                    var brandsDropdown = $('.dropdown1[name="brands"]');
-                                    brandsDropdown.empty();
-                                    brandsDropdown.append('<option value="" disabled selected hidden>Please select the brand</option>');
+                                  $('#brand-checkboxes').append('<strong>Please select brands</strong>')
+                                    data.brands.sort();
                                     $.each(data.brands, function(index, brand){
-                                        brandsDropdown.append('<option value="' + brand + '">' + brand + '</option>');
-                                    });
+                                      var checkbox = $('<lable><input type="checkbox" name="brands" value="' + brand + '">' + brand + '</lable>');
+                                      var breakline = $('<br>');
+                                      $('#brand-checkboxes').append(breakline);
+                                      $('#brand-checkboxes').append(checkbox);
+                                  });
                                 }
                             }
                         });
                     }
+                }
                 });
             });
+        </script> {% endcomment %}
+        <script>
+            function closePopup() {
+                document.getElementById('popupForm').style.display = 'none';
+            }
         </script>
+        <script>
+            $(document).ready(function(){
+                var maxStates = 3;
+                var maxBrands = 5;
+                // Function to handle the population of checkboxes
+                function populateCheckboxes(data) {
+                    // Your existing code to populate state and brand checkboxes
+                    var statesfromviews = {{ selected_state|safe }};
+                    var brandsfromviews  = {{ selected_brand|safe }};
+                    $('#state-checkboxes').empty();
+                    $('#brand-checkboxes').empty();
+                        if(data.states){
+                            $('#state-checkboxes').append('<strong><h7>Please select States</h7></strong>')
+                            
+                            var uncheckedBrands = []; // Array to store checked states
+                            var uncheckedStates = [];
+                            data.states.sort();
+                            $.each(data.states, function(index, state){
+                                var isChecked = ($.inArray(state, statesfromviews) !== -1); // Check if state is in selected_state
+                                
+                                if (isChecked) {
+                                    var checkbox = $('<label><input type="checkbox" name="states" style="margin: 6px;" value="' + state + '"' + (isChecked ? ' checked' : '') + '>' + state + '</label>');
+                                    var breakline = $('<br>');
+                                    $('#state-checkboxes').append(breakline);
+                                    $('#state-checkboxes').append(checkbox);
+                                }
+                                else{
+                                    uncheckedStates.push(state);
+                                }
+                            });
+                            
+                            if (uncheckedStates.length > 0) {
+                                uncheckedStates.forEach(function(state) {
+                                   
+                                    var checkbox = $('<label><input type="checkbox" name="states" style="margin: 6px;" value="' + state + '"' + '>' + state + '</label>');
+                                    var breakline = $('<br>');
+                                    
+                                    $('#state-checkboxes').append(breakline);
+                                    $('#state-checkboxes').append(checkbox);
+                                });
+                            }
+                            
+                        }
+
+                        if(data.brands){
+                            $('#brand-checkboxes').append('<strong><h7>Please select Brands</h7></strong>')
+                           
+                            data.brands.sort();
+                            $.each(data.brands, function(index, brand){
+                                var isChecked = ($.inArray(brand, brandsfromviews) !== -1); // Check if state is in selected_state
+                                if (isChecked) {
+                                    var checkbox = $('<label><input type="checkbox" name="brands" style="margin: 6px;" value="' + brand + '"' + (isChecked ? ' checked' : '') + '>' + brand + '</label>');
+                                    var breakline = $('<br>');
+                                    $('#brand-checkboxes').append(breakline);
+                                    $('#brand-checkboxes').append(checkbox);
+                                }
+                                else{
+                                    uncheckedBrands.push(brand);
+                                }
+                            });
+                            
+                            if (uncheckedBrands.length > 0) {
+                                uncheckedBrands.forEach(function(brand) {
+                                   
+                                    var checkbox = $('<label><input type="checkbox" name="brands" style="margin: 6px;" value="' + brand + '"' + '>' + brand + '</label>');
+                                    var breakline = $('<br>');
+                                    
+                                    $('#brand-checkboxes').append(breakline);
+                                    $('#brand-checkboxes').append(checkbox);
+                                });
+                            }
+                        }
+                    }
+        
+                // Event handler for the industry dropdown change
+                $('.dropdown1[name="industries"]').change(function(){
+                    var industry = $(this).val();
+                    if(['Industry', 'Apparel', 'Automobile', 'Electronic', 'Entertainment', 'Supermarket', 'Telecom'].includes(industry)) {
+                        if(industry){
+                            $.ajax({
+                                url: `/get_data/${industry}/`,
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(data){
+                                    populateCheckboxes(data);
+                                }
+                            });
+                        }
+                    }
+                });
+        
+                // Manually trigger change event for "Automobile" if it is selected initially
+                var initialIndustry = $('.dropdown1[name="industries"]').val();
+                if (initialIndustry === "Industry") {
+                    // Simulate the change event for "Industry"
+                    $('.dropdown1[name="industries"]').trigger('change');
+                }
+                if (initialIndustry === "Apparel") {
+                    // Simulate the change event for "Automobile"
+                    $('.dropdown1[name="industries"]').trigger('change');
+                }
+                if (initialIndustry === "Automobile") {
+                    // Simulate the change event for "Automobile"
+                    $('.dropdown1[name="industries"]').trigger('change');
+                }
+                if (initialIndustry === "Electronic") {
+                    // Simulate the change event for "Automobile"
+                    $('.dropdown1[name="industries"]').trigger('change');
+                }
+                if (initialIndustry === "Entertainment") {
+                    // Simulate the change event for "Automobile"
+                    $('.dropdown1[name="industries"]').trigger('change');
+                }
+                if (initialIndustry === "Supermarket") {
+                    // Simulate the change event for "Automobile"
+                    $('.dropdown1[name="industries"]').trigger('change');
+                }
+                if (initialIndustry === "Telecom") {
+                    // Simulate the change event for "Automobile"
+                    $('.dropdown1[name="industries"]').trigger('change');
+                }
+                // Add event listener to limit the number of checked checkboxes
+                $('#state-checkboxes, #brand-checkboxes').on('change', 'input[type="checkbox"]', function () {
+                    var checkedCheckboxes = $(this).closest('div').find('input[type="checkbox"]:checked');
+
+                    if ($(this).attr('name') === 'states' && checkedCheckboxes.length > maxStates) {
+                        this.checked = false;
+                        showAlert('You can select maximum 3 states from this list');
+                    } else if ($(this).attr('name') === 'brands' && checkedCheckboxes.length > maxBrands) {
+                        this.checked = false;
+                        showAlert('You can select maximum 5 brands from this list');
+                    }
+                });
+                function showAlert(message) {
+                    // You can customize this alert to fit your needs, for example, using a modal or a custom popup
+                    alert(message);
+                }
+            });
+        </script>
+        
     </body>
 </html>

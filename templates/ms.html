@@ -1,0 +1,317 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>FloorWalk Research Tool</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <!-- Favicons -->
+    <link href="https://floorwalk.in/img/logos/logo-shortcut.png" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+      .scrollable-checkboxes {
+        max-height: 200px; /* Adjust height as needed */
+        
+        overflow-y: scroll;
+      }
+      .footer-location{
+        color: #fff;
+      }
+    </style>
+  </head>
+  
+  <body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+      <div class="container d-flex align-items-center justify-content-between">
+
+        <a href="https://research.floorwalk.in/" class="logo"><img src="https://floorwalk.in/img/logo.png " alt="FloorWalk" class="img-fluid"></a>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto" href="https://floorwalk.in/">Floowalk Home</a></li>
+            <li><a class="nav-link scrollto" href="https://marketplace.floorwalk.in">Marketplace</a></li>
+            <li><a class="nav-link scrollto" href="https://floorwalk.in/contact_FloorWalk.html">Contact Us</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+      </div>
+    </header><!-- End Header -->
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+      <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+          <div class="col-xl-7 col-lg-9 text-center">
+            <h1>Use our expert data matrix, Identify your next store location! </h1>
+          </div>
+        </div>
+
+        <form method="post" action="{% url 'search_results' %}" class="filters1">
+          {% csrf_token %}
+          <div class="select-section">
+            <select class="dropdown1" name="industries" required>
+              <option value="" disabled selected hidden>Please select Industry</option>
+              <option value="Industry">Please select Industry</option>
+              <option value="Automobile">Automobile</option>
+              <option value="Electronic">Electronics</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Supermarket">Supermarket</option>
+              <option value="Telecom">Telecom</option>
+            </select>
+          
+            <div class="dropdown1 scrollable-checkboxes"  id="state-checkboxes" name="states">
+              <h7>Please select States</h7>
+            </div>
+        
+            <div class="dropdown1 scrollable-checkboxes" id="brand-checkboxes" name="brands">
+              <h7>Please select Brands</h7>
+            </div>
+          </div>
+     
+          <button type="submit" class="btn-get-started">Search</button>
+    
+        </form>
+      </div>
+    </section><!-- End Hero -->
+
+    <main id="main" style="margin:20px;">
+
+      <!-- ======= Services Section ======= -->
+      <section id="services" class="services section-bg">
+        <div class="container" data-aos="fade-up">
+
+          <div class="row">
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+              <div class="icon-box iconbox-blue">
+                <h4><a href="">Intelligent Decision Making</a></h4>
+                <p>Make Intelligent decisions through your competition store locations, conduct research on their planning and implement 
+                  your decisions accordingly.</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+              <div class="icon-box iconbox-orange ">
+                <h4><a href="">Intelligent Decision Making</a></h4>
+                <p>Make Intelligent decisions through your competition store locations, conduct research on their planning and implement 
+                  your decisions accordingly.</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+              <div class="icon-box iconbox-pink">
+                <h4><a href="">Intelligent Decision Making</a></h4>
+                <p>Make Intelligent decisions through your competition store locations, conduct research on their planning and implement 
+                  your decisions accordingly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section><!-- End Sevices Section -->
+
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="footer-top-data">
+          <div class="footer-top-text" style="margin-top:2%;">
+            <p style="color:white;text-align:center; font-size:20px;">Get connected with us on social networks</p>
+          </div>
+          <div class="footer-soical-media-icons" style="margin-top:2%; margin-left:20px;">
+            <div style="padding-left:66px;padding-right:45px;">
+              <a href="http://www.facebook.com/FloorWalk">
+                <img src="https://floorwalk.in/img/icons/Asset%201.png" alt="facebook-icon"/>
+              </a>
+            </div>
+            <div style="margin-top:1%;padding-right:45px;">
+              <a href="https://twitter.com/FloorWalkIndia">
+                <img src="https://floorwalk.in/img/icons/Asset%202.png" alt="twitter-icon"/>
+              </a>
+            </div>
+            <div style="padding-right:45px;">
+              <a href="https://www.instagram.com/floorwalk">
+                <img src="https://floorwalk.in/img/icons/Asset%203.png" alt="instagram-icon"/>
+              </a>
+            </div>
+            <div style="padding-right:45px;">
+              <a href="https://www.linkedin.com/company/floorwalk">
+                <img src="https://floorwalk.in/img/icons/Asset%204.png" alt="linkedin-icon"/>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-middle">
+        <div class="container">
+          <div class="row">
+            
+            <div class="col-lg-2 col-md-6 footer-links">
+              <a href="#">
+                <img src="https://floorwalk.in/img/floorwalk_logo.png" alt="FloorWalk Logo" width="140px"/>
+              </a>
+              <br>
+              <br>
+              <ul>
+                <li><a href="https://floorwalk.in/market-research.html">Market Research</a></li>
+                <li><a href="https://floorwalk.in/Retail_Audits.html">Retail Audits</a></li>
+                <li><a href="https://floorwalk.in/Consumer_Insights.html">Consumer insights</a></li>
+                <li><a href="https://floorwalk.in/Mystery_Shopping.html">Mystery Shopping</a></li>
+              </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6 footer-links">
+              <ul>
+                <li><a href="https://floorwalk.in/about-floorwalk-mystery-shopping.html">About Us</a></li>
+                <li><a href="https://floorwalk.in/Mystery_Shopping_Services.html">Services Offered</a></li>
+                <li><a href="https://floorwalk.in/our_clients.html">Industries & Clients</a></li>
+                <li><a href="https://floorwalk.in/Frequently_asked_questions_mystery_shopper.html">FAQ’s</a></li>
+                <li><a href="https://floorwalk.in/case_studies.html">Case Studies</a></li>
+                <li><a href="https://floorwalk.in/contact_FloorWalk.html">Contact Us</a></li>
+              </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6 footer-links">
+              <i class="fa fa-map-marker" style="font-size:18px; color:white;"></i>&nbsp;&nbsp;&nbsp;
+              <span class='footer-location'>
+                FloorWalk Consultants Private Limited,
+                AltF Empire Square,
+                MR-1, Unit 1,  3rd Floor, JMD Empire Square,
+                Near Sikanderpur Metro Station, Opp. Metro Pillar No. 71, MG Road 
+                Gurugram, Haryana - 122002<br>
+              </span>
+              <br>
+              <i class="fa fa-envelope" style="font-size:18px; color:white;"></i>&nbsp;&nbsp;<a href="mailto:contactus@floorwalk.in"><span class='footer-location'>contactus@floorwalk.in</span></a>
+            </div>
+
+            <div class="col-lg-2 col-md-6 footer-links">
+              <ul>
+                {% comment %} <a href="https://portal.floorwalk.in/auth/signup?ref=footer"  class="primary-button button-xs ui-gradient-green">Mystery Shopping Jobs</a> {% endcomment %}
+                <a class="btn btn-primary" href="https://portal.floorwalk.in/auth/signup?ref=footer" role="button">Mystery Shopping Jobs</a>
+                <li><a href="https://portal.floorwalk.in/auth/login?ref=footer">Log In</a></li>
+              </ul>
+            </div>
+            {% comment %} <a class="btn btn-primary" id="feedback" href="https://portal.zeda.io/floorwalk/board-hgwf" role="button">Feedback</a> {% endcomment %}
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p style="text-align: center;color: black">© 2024 All Rights Reserved.   @ Floorwalk Consultants Pvt Ltd.</p>
+      </div>
+    </footer><!-- End Footer -->
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+     
+    <script>
+        $(document).ready(function(){
+          var maxStates = 3;
+          var maxBrands = 5;
+            $('.dropdown1[name="industries"]').change(function(){
+                var industry = $(this).val();
+      
+                if(industry){
+                    $.ajax({
+                        url: `/get_data/${industry}/`,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data){
+                          $('#state-checkboxes').empty();
+                          $('#brand-checkboxes').empty();
+                            if(data.states){
+                              $('#state-checkboxes').append('<strong><h7>Please select States</h7></strong>')
+                             
+                                data.states.sort();
+                                $.each(data.states, function(index, state){
+                                  var checkbox = $('<label><input type="checkbox" name="states" value="' + state + '" style="margin: 6px;">' + state + '</label>');
+                                  var breakline = $('<br>');
+                                  $('#state-checkboxes').append(breakline);
+                                  $('#state-checkboxes').append(checkbox);
+                          
+                              });
+                            }
+
+                            if(data.brands){
+                              $('#brand-checkboxes').append('<strong><h7>Please select Brands</h7></strong>')
+                              
+                                data.brands.sort();
+                                $.each(data.brands, function(index, brand){
+                                  var checkbox = $('<label><input type="checkbox" name="brands" value="' + brand + '" style="margin: 6px;">' + brand + '</label>');
+                                  var breakline = $('<br>');
+                                  $('#brand-checkboxes').append(breakline);
+                                  $('#brand-checkboxes').append(checkbox);
+                              });
+                            }
+                        }
+                    });
+                }
+            });
+            // Add event listener to limit the number of checked checkboxes
+            $('#state-checkboxes, #brand-checkboxes').on('change', 'input[type="checkbox"]', function () {
+              var checkedCheckboxes = $(this).closest('div').find('input[type="checkbox"]:checked');
+
+              if ($(this).attr('name') === 'states' && checkedCheckboxes.length > maxStates) {
+                  this.checked = false;
+                  showAlert('You can select maximum 3 states from this list');
+              } else if ($(this).attr('name') === 'brands' && checkedCheckboxes.length > maxBrands) {
+                  this.checked = false;
+                  showAlert('You can select maximum 5 brands from this list');
+              }
+          });
+          function showAlert(message) {
+            // You can customize this alert to fit your needs, for example, using a modal or a custom popup
+            alert(message);
+          }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  </body>
+
+</html>
+
+
+
+

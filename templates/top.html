@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Data</title>
+</head>
+<body>
+    <h1>Data from Django Model</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>State Name</th>
+                <th>State</th>
+                <th>Level</th>
+                <th>Name</th>
+                <th>Tru</th>
+                <th>Total Population</th>
+                <th>Total Males</th>
+                <th>Total Females</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+                <tr>
+                    <td>{{ item.state_name }}</td>
+                    <td>{{ item.state }}</td>
+                    <td>{{ item.level }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.tru }}</td>
+                    <td>{{ item.total_population }}</td>
+                    <td>{{ item.total_males }}</td>
+                    <td>{{ item.total_female }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+

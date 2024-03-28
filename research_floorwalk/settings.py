@@ -82,7 +82,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'electronicstores',
+        'NAME': 'floorwalk',
         'USER': 'postgres',
         'PASSWORD': '12',
         'HOST': 'localhost',

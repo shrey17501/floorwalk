@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VH1R3QPDSJ"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+    
+          gtag('config', 'G-VH1R3QPDSJ');
+        </script>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+        <title>Sitemap - FloorWalk</title>
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+        <style>
+            /* Set the iframe to occupy full size of the viewport */
+            iframe {
+                width: 100%;
+                height: 100vh; /* 100% of viewport height */
+                border: none; /* Remove border */
+            }
+            pre {
+                white-space: pre-wrap; /* CSS3 */
+                white-space: -moz-pre-wrap; /* Firefox */
+                white-space: -pre-wrap; /* Opera <7 */
+                white-space: -o-pre-wrap; /* Opera 7 */
+                word-wrap: break-word; /* IE */
+            }
+        </style>
+    </head>
+    <body>
+      
+    {% comment %} <div class="container" style="width:100%;"> {% endcomment %}
+        <!-- Use the static template tag to reference the XML file -->
+        {% comment %} <object data="{% static 'sitemap/sitemap.xml' %}" type="application/xml">
+            Your browser does not support XML files.
+        </object> {% endcomment %}
+    {% comment %} </div> {% endcomment %}
+
+    <pre>{{xml_content}}</pre>
+    {% comment %} <div>
+        <!-- Use iframe to embed the XML file -->
+        <iframe src="{% static 'sitemap.xml' %}"></iframe>
+    </div> {% endcomment %}
+    
+    {% comment %} <pre>
+        <!-- Use Django template tags to include the XML content -->
+        <pre>{{ xml_content }}</pre>
+    </pre> {% endcomment %}
+    </body>
+</html>

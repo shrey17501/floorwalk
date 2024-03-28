@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Add your head content here -->
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    {% if results %}
+        <ul>
+            {% for item in results %}
+                <li>{{item.state}} - {{ item.store_name }} - {{ item.brand_name }}</li>
+                <!-- Adjust the fields based on your model -->
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+
+    <!-- Add your body content here -->
+
+</body>
+</html>
