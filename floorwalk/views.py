@@ -13,7 +13,8 @@ from django.contrib.staticfiles import finders
 # Create your views here.
 
 def sitemap(request):
-    xml_file_path = finders.find('sitemap.xml')
+    #xml_file_path = finders.find('sitemap.xml')
+    xml_file_path = os.path.join(BASE_DIR, 'static', 'sitemap', 'sitemap.xml')
     
     if xml_file_path:
         with open(xml_file_path, 'r') as xml_file:
