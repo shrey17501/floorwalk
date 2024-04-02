@@ -1,6 +1,8 @@
 from django.db.models import Count
 from django.shortcuts import render
 import pandas as pd
+
+from research_floorwalk.settings import BASE_DIR
 from .models import *
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -9,11 +11,15 @@ from django.db.models import Count
 from plotly.offline import plot
 import plotly.graph_objs as go
 from django.contrib.staticfiles import finders
-
+from django.conf import settings
+import os
 # Create your views here.
 
 def sitemap(request):
-    xml_file_path = finders.find('sitemap.xml')
+    # xml_file_path = finders.find('sitemap.xml')
+    xml_file_path = os.path.join(BASE_DIR, 'static', 'sitemap', 'sitemap.xml')
+   
+
     
     if xml_file_path:
         with open(xml_file_path, 'r') as xml_file:
