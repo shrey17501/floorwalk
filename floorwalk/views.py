@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.shortcuts import render
 import pandas as pd
-
+from django.http import HttpResponse
 from research_floorwalk.settings import BASE_DIR
 from .models import *
 from django.http import JsonResponse
@@ -17,11 +17,12 @@ import os
 
 def sitemap(request):
     #xml_file_path = finders.find('sitemap.xml')
-    xml_file_path = os.path.join(BASE_DIR, 'static', 'sitemap', 'sitemap.xml')
+    xml_file_path = os.path.join(BASE_DIR, 'static', 'sitemap', 'sitemap.xml    ')
     if xml_file_path:
         with open(xml_file_path, 'r') as xml_file:
             xml_content = xml_file.read()
-        return render(request, 'sitemap.html', {'xml_content': xml_content})
+        return HttpResponse(xml_content, content_type='application/xml')
+        #return render(request, 'sitemap.html', {'xml_content': xml_content})
     else:
         # Handle file not found error
         return render(request, 'index.html')
