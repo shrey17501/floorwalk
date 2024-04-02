@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from django.views.generic import TemplateView
+from django.conf.urls import handler404
+from floorwalk import views
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -10,3 +11,4 @@ urlpatterns = [
     path('top/', views.top, name='top'),
     path('sitemap.xml', views.sitemap, name='sitemap'),
 ]
+handler404 = views.custom_page_not_found_view

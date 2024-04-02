@@ -11,13 +11,16 @@ from django.db.models import Count
 from plotly.offline import plot
 import plotly.graph_objs as go
 #from django.contrib.staticfiles import finders
-from research_floorwalk.settings import BASE_DIR
 import os
+
 # Create your views here.
+def custom_page_not_found_view(request, exception):
+    print("error")
+    return render(request, '404.html', status=404)
 
 def sitemap(request):
     #xml_file_path = finders.find('sitemap.xml')
-    xml_file_path = os.path.join(BASE_DIR, 'static', 'sitemap', 'sitemap.xml    ')
+    xml_file_path = os.path.join(BASE_DIR, 'static', 'sitemap', 'sitemap.xml')
     if xml_file_path:
         with open(xml_file_path, 'r') as xml_file:
             xml_content = xml_file.read()
